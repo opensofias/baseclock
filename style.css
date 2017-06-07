@@ -1,0 +1,17 @@
+html {
+	font-family: 'Source Code Pro', Consolas, Inconsolata, monospace;	
+	font-size: calc(30vw + 15vh);
+	font-weight: 100;
+	text-align: center;
+	line-height: 1em;
+}
+
+body{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100vh;
+	width: 100vw;
+	margin: 0;
+	overflow-y: hidden;
+}
