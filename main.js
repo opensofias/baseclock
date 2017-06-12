@@ -1,25 +1,60 @@
-const units = [16,16,16,16]
-const dayMils = 1000 * 60 * 60 * 24
-const sUnitMils = dayMils /
-	units.reduce ((val, acc) => val * acc,1)
+'use strict'
 
-const renderClock = ()=> {
-	const milsToday = Date.now() % dayMils
+let config
 
-	setTimeout (renderClock,
-		sUnitMils - (milsToday % sUnitMils)
-	)
+let currentTimer
 
-	let unitsToday = milsToday / sUnitMils
-	const timeArray = []
-	units.forEach (unit => {
-		timeArray.unshift ((unitsToday % unit) | 0)
-		unitsToday /= unit
-	})
+const msPerDay = 1000 * 60 * 60 * 24
+const msPerSUnit = ()=>
+	msPerDay / config.units.reduce ((val, acc) => acc * val, 1)
 
-	const digitArray = timeArray.map (digt => digt.toString(36))
-	digitArray.splice (2, 0, '<wbr/>') // insert zero-width space
-	document.body.innerHTML =	digitArray.join ('').toUpperCase ()
+const toTimeArray = ms => {
+	let sUnits = ms / msPerSUnit ()
+	return config.units.reduce ((acc, unit) => {
+		acc.unshift (sUnits % unit)
+		sUnits /= unit
+		return acc
+	}, [])
 }
 
-window.onload = renderClock
+const clockString = (timeArray, separators) =>
+	separators.map ((sep, index) => 
+		sep + (
+			typeof timeArray[index] == 'undefined' ?
+			'' : (timeArray[index] | 0).toString(36)
+		)
+	).join ('').toUpperCase ()
+
+const renderClock = ()=> {
+	const msOfToday = Date.now() % msPerDay
+
+	currentTimer = setTimeout (renderClock,
+		msPerSUnit () - (msOfToday % msPerSUnit ())
+	)
+
+	document.body.innerHTML =
+	clockString (toTimeArray (msOfToday), config.separators)
+}
+
+onload = onhashchange = () => {
+	location.hash = location.hash || '#hex'
+	const preset = presets [location.hash.slice(1)]
+	typeof preset != 'undefined' && (config = preset)
+	const charsRoot = Math.sqrt (
+		preset.separators
+		.filter (x =>
+			x != '' &&
+			! (x.startsWith('<') && x.endsWith('<'))
+		).length +
+		preset.units.length
+	)
+
+	document.body.style =
+		'font-size: calc(' +
+		60 / charsRoot + 'vh + ' +
+		30 / charsRoot + 'vw);' +
+		'line-height: 1em;'
+
+	clearTimeout (currentTimer)
+	renderClock()
+}
