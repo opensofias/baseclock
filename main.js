@@ -1,21 +1,19 @@
 import { presets } from './presets.js'
 
-let config
-
 let currentTimer
 
 const msPerDay = 1000 * 60 * 60 * 24
-const msPerShortUnit = ()=>
-	msPerDay / config.units.reduce ((val, acc) => acc * val, 1)
+const msPerShortUnit = units =>
+	msPerDay / units.reduce ((val, acc) => acc * val, 1)
 
-const toTimeArray = ms => 
-	config.units.reduce (({remaining, timeArray}, unit) => ({
+const toTimeArray = ({units}) => ms => 
+	units.reduce (({remaining, timeArray}, unit) => ({
 		remaining: remaining / unit,
 		timeArray: [remaining % unit, ...timeArray]
-	}), {remaining: ms / msPerShortUnit (), timeArray: []})
+	}), {remaining: ms / msPerShortUnit (units), timeArray: []})
 	.timeArray
 
-const clockString = (timeArray, separators) =>
+const clockString = ({separators}) => timeArray =>
 	separators.map ((sep, index) => 
 		sep + (
 			typeof timeArray[index] == 'undefined' ?
@@ -23,21 +21,22 @@ const clockString = (timeArray, separators) =>
 		)
 	).join ('').toUpperCase ()
 
-const renderClock = ()=> {
+const renderClock = config => {
+
 	const msOfToday = Date.now() % msPerDay
 
 	currentTimer = setTimeout (renderClock,
-		msPerShortUnit () - (msOfToday % msPerShortUnit ())
+		msPerShortUnit (config.units) - (msOfToday % msPerShortUnit (config.units)),
+		config
 	)
 
 	document.body.innerHTML =
-	clockString (toTimeArray (msOfToday), config.separators)
+	clockString (config) (toTimeArray (config) (msOfToday))
 }
 
 onload = onhashchange = () => {
 	location.hash ||= '#hex'
 	const preset = presets [location.hash.slice(1)]
-	typeof preset != 'undefined' && (config = preset)
 	const charsRoot = Math.sqrt (
 		preset.separators
 		.filter (x =>
@@ -54,5 +53,5 @@ onload = onhashchange = () => {
 		'line-height: 1em;'
 
 	clearTimeout (currentTimer)
-	renderClock()
+	renderClock(preset)
 }
