@@ -31,7 +31,7 @@ const renderClock = config => {
 	)
 
 	document.body.innerHTML =
-	clockString (config) (toTimeArray (config) (msOfToday))
+		clockString (config) (toTimeArray (config) (msOfToday))
 }
 
 onload = onhashchange = () => {
