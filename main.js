@@ -5,14 +5,14 @@ let config
 let currentTimer
 
 const msPerDay = 1000 * 60 * 60 * 24
-const msPerSUnit = ()=>
+const msPerShortUnit = ()=>
 	msPerDay / config.units.reduce ((val, acc) => acc * val, 1)
 
 const toTimeArray = ms => {
-	let sUnits = ms / msPerSUnit ()
+	let shortUnits = ms / msPerShortUnit ()
 	return config.units.reduce ((acc, unit) => {
-		acc.unshift (sUnits % unit)
-		sUnits /= unit
+		acc.unshift (shortUnits % unit)
+		shortUnits /= unit
 		return acc
 	}, [])
 }
@@ -29,7 +29,7 @@ const renderClock = ()=> {
 	const msOfToday = Date.now() % msPerDay
 
 	currentTimer = setTimeout (renderClock,
-		msPerSUnit () - (msOfToday % msPerSUnit ())
+		msPerShortUnit () - (msOfToday % msPerShortUnit ())
 	)
 
 	document.body.innerHTML =
