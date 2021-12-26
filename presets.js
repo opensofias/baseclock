@@ -8,6 +8,15 @@ export const presets = (data => {
 	hex: {
 		units : [16,16,16,16],
 		separators : '##<wbr/>##'
+	}, hexInline: {
+		units : [16,16,16,16],
+		separators : '####'
+	}, hexQuat: {
+		units : [16,16,16,16],
+		separators : '##<br/>##'
+	}, hexVert: {
+		units : [16,16,16,16],
+		separators : '#<br/>#<br/>#<br/>#'
 	}, hexMic: {
 		units : [16,16,16,16,16,16],
 		separators : '##<wbr/>## ##'
@@ -23,6 +32,9 @@ export const presets = (data => {
 	}, dec: {
 		units: [10,100,100],
 		separators: '#.#.#'
+	}, decDigitInline: {
+		units: [10,10,10,10,10],
+		separators: '#.##<wbr/>.##'
 	}, decDigit: {
 		units: [10,10,10,10,10],
 		separators: '#.##<wbr/>.##'
