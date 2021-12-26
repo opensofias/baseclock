@@ -1,6 +1,10 @@
-'use strict'
-
-const presets = {
+export const presets = (data => {
+	for (let name in data) {
+		data[name].units = data[name].units.reverse()
+		data[name].separators = data[name].separators.split ('#')
+	}
+	return data
+}) ({
 	hex: {
 		units : [16,16,16,16],
 		separators : '##<wbr/>##'
@@ -43,11 +47,4 @@ const presets = {
 		units: [36,36,36],
 		separators: '###'
 	}
-}
-
-for (let name in presets) {
-	presets[name].units =
-	presets[name].units.reverse()
-	presets[name].separators =
-	presets[name].separators.split ('#')
-}
+})

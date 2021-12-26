@@ -1,4 +1,4 @@
-'use strict'
+import { presets } from './presets.js'
 
 let config
 
