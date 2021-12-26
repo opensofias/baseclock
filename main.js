@@ -8,14 +8,12 @@ const msPerDay = 1000 * 60 * 60 * 24
 const msPerShortUnit = ()=>
 	msPerDay / config.units.reduce ((val, acc) => acc * val, 1)
 
-const toTimeArray = ms => {
-	let shortUnits = ms / msPerShortUnit ()
-	return config.units.reduce ((acc, unit) => {
-		acc.unshift (shortUnits % unit)
-		shortUnits /= unit
-		return acc
-	}, [])
-}
+const toTimeArray = ms => 
+	config.units.reduce (({remaining, timeArray}, unit) => ({
+		remaining: remaining / unit,
+		timeArray: [remaining % unit, ...timeArray]
+	}), {remaining: ms / msPerShortUnit (), timeArray: []})
+	.timeArray
 
 const clockString = (timeArray, separators) =>
 	separators.map ((sep, index) => 
