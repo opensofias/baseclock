@@ -24,10 +24,10 @@ const clockString = ({separators}) => timeArray =>
 const renderClock = config => {
 
 	const msOfToday = Date.now() % msPerDay
+	const shorts = msPerShortUnit (config.units)
 
-	currentTimer = setTimeout (renderClock,
-		msPerShortUnit (config.units) - (msOfToday % msPerShortUnit (config.units)),
-		config
+	currentTimer = setTimeout (
+		renderClock, shorts - (msOfToday % shorts), config
 	)
 
 	document.body.innerHTML =
