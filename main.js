@@ -14,11 +14,9 @@ const toTimeArray = ({units}) => ms =>
 	.timeArray
 
 const clockString = ({separators}) => timeArray =>
+	(timeArray = Uint8Array.from (timeArray)) &&
 	separators.map ((sep, index) => 
-		sep + (
-			typeof timeArray[index] == 'undefined' ?
-			'' : (timeArray[index] | 0).toString(36)
-		)
+		sep + (timeArray[index]?.toString(36) ?? '')
 	).join ('').toUpperCase ()
 
 const renderClock = config => {
