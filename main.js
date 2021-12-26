@@ -36,7 +36,8 @@ const renderClock = config => {
 
 onload = onhashchange = () => {
 	location.hash ||= '#hex'
-	const preset = presets [location.hash.slice(1)]
+	const preset = presets [location.hash.slice(1)] ??
+	(console.error ('undefined parameter:' + location.hash) || presets.hex)
 	const charsRoot = Math.sqrt (
 		preset.separators
 		.filter (x =>
