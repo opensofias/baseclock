@@ -37,7 +37,7 @@ const renderClock = ()=> {
 }
 
 onload = onhashchange = () => {
-	location.hash = location.hash || '#hex'
+	location.hash ||= '#hex'
 	const preset = presets [location.hash.slice(1)]
 	typeof preset != 'undefined' && (config = preset)
 	const charsRoot = Math.sqrt (
