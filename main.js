@@ -42,10 +42,9 @@ const renderClock = config => {
 const adaptStyle = ({separators, units}) => {
 	const charsRoot = Math.sqrt (
 		separators
-		.filter (x =>
-			x != '' &&
-			! (x.startsWith('<') && x.endsWith('>'))
-		).length +
+		.filter (x => x != '')
+		.filter (x => !(x.startsWith('<') && x.endsWith('>')))
+		.length +
 		units.length
 	)
 
