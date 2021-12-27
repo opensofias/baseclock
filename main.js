@@ -47,7 +47,7 @@ onload = onhashchange = () => {
 		preset.separators
 		.filter (x =>
 			x != '' &&
-			! (x.startsWith('<') && x.endsWith('<'))
+			! (x.startsWith('<') && x.endsWith('>'))
 		).length +
 		preset.units.length
 	)
