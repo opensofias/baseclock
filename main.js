@@ -13,6 +13,12 @@ const toTimeArray = ({units}) => ms =>
 	}), {remaining: ms / msPerShortUnit (units), timeArray: []})
 	.timeArray
 
+const weave = ([item, ...rest], ...strands) => (woven = []) =>
+	(strands [0].length ?
+		weave (...strands, rest) :
+		x => x
+	) ([...woven, item])
+
 const clockString = ({separators}) => timeArray =>
 	(timeArray = Uint8Array.from (timeArray)) &&
 	separators.map ((sep, index) => 
