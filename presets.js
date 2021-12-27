@@ -21,10 +21,12 @@ export const presets = (data => {
 		units : [16,16,16,16,16,16],
 		separators : '##<wbr/>## ##'
 	}, babDec: {
-		units : [2.4,10,6,10,6,10], //not sure if right
+		units : [24,60,60], //doesn't work..
+		subUnits: [[10, 10], [10, 10], [10, 10]],
 		separators : '##:##<wbr/>:##'
 	}, babHex: {
-		units : [24/16,16,60/16,16,60/16,16], //doesn't work..
+		units : [24,60,60], //doesn't work..
+		subUnits: [[16, 16], [16, 16], [16, 16]],
 		separators : '##:##<wbr/>:##'
 	}, bab: {
 		units: [24,60,60],
