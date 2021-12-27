@@ -6,7 +6,7 @@ const msPerDay = 1000 * 60 * 60 * 24
 const msPerShortUnit = units =>
 	msPerDay / units.reduce ((val, acc) => acc * val, 1)
 
-const toTimeArray = ({units}) => ms => 
+const toTimeArray = ({units}) => ms =>
 	units.reduce (({remaining, timeArray}, unit) => ({
 		remaining: remaining / unit,
 		timeArray: [remaining % unit, ...timeArray]
@@ -27,13 +27,12 @@ const clockString = ({separators}) => timeArray =>
 	) ().join ('').toUpperCase ()
 
 const renderClock = config => {
-
 	const msOfToday = Date.now() % msPerDay
 	const shorts = msPerShortUnit (config.units)
 
 	document.body.innerHTML =
 		clockString (config) (toTimeArray (config) (msOfToday))
-		
+
 	currentTimer = setTimeout (
 		renderClock, shorts - (msOfToday % shorts), config
 	)
