@@ -39,11 +39,29 @@ const renderClock = config => {
 		clockString (config) (toTimeArray (config) (msOfToday))
 }
 
+const adaptStyle = ({separators, units}) => {
+	const charsRoot = Math.sqrt (
+		separators
+		.filter (x =>
+			x != '' &&
+			! (x.startsWith('<') && x.endsWith('>'))
+		).length +
+		units.length
+	)
+
+	document.body.style =
+		'font-size: calc(' +
+		60 / charsRoot + 'vh + ' +
+		30 / charsRoot + 'vw);' +
+		'line-height: 1em;'
+}
+
 onload = onhashchange = () => {
 	location.hash ||= '#hex'
 	const preset = presets [location.hash.slice(1)] ??
 	(console.error ('undefined parameter:' + location.hash) || presets.hex)
 
+	adaptStyle (preset)
 	clearTimeout (currentTimer)
 	renderClock(preset)
 }
