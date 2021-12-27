@@ -43,20 +43,6 @@ onload = onhashchange = () => {
 	location.hash ||= '#hex'
 	const preset = presets [location.hash.slice(1)] ??
 	(console.error ('undefined parameter:' + location.hash) || presets.hex)
-	const charsRoot = Math.sqrt (
-		preset.separators
-		.filter (x =>
-			x != '' &&
-			! (x.startsWith('<') && x.endsWith('>'))
-		).length +
-		preset.units.length
-	)
-
-	document.body.style =
-		'font-size: calc(' +
-		60 / charsRoot + 'vh + ' +
-		30 / charsRoot + 'vw);' +
-		'line-height: 1em;'
 
 	clearTimeout (currentTimer)
 	renderClock(preset)
