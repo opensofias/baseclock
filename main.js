@@ -31,12 +31,12 @@ const renderClock = config => {
 	const msOfToday = Date.now() % msPerDay
 	const shorts = msPerShortUnit (config.units)
 
+	document.body.innerHTML =
+		clockString (config) (toTimeArray (config) (msOfToday))
+		
 	currentTimer = setTimeout (
 		renderClock, shorts - (msOfToday % shorts), config
 	)
-
-	document.body.innerHTML =
-		clockString (config) (toTimeArray (config) (msOfToday))
 }
 
 const adaptStyle = ({separators, units}) => {
