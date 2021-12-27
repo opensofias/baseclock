@@ -52,8 +52,7 @@ const adaptStyle = ({separators, units}) => {
 	document.body.style =
 		'font-size: calc(' +
 		60 / charsRoot + 'vh + ' +
-		30 / charsRoot + 'vw);' +
-		'line-height: 1em;'
+		30 / charsRoot + 'vw);'
 }
 
 onload = onhashchange = () => {
