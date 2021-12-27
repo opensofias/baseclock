@@ -21,9 +21,7 @@ const weave = ([item, ...rest], ...strands) => (woven = []) =>
 
 const clockString = ({separators}) => timeArray =>
 	weave (separators,
-		timeArray
-		.map(Math.floor)
-		.map (x => x.toString (36))
+		timeArray.map (x => Math.floor(x).toString (36))
 	) ().join ('').toUpperCase ()
 
 const renderClock = config => {
