@@ -11,7 +11,7 @@ export const presets = (data => {
 	}, hexInline: {
 		units : [16,16,16,16],
 		separators : '####'
-	}, hexQuat: {
+	}, hexSquare: {
 		units : [16,16,16,16],
 		separators : '##<br/>##'
 	}, hexVert: {
