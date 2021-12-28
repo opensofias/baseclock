@@ -10,7 +10,7 @@ const toTimeArray = ({units}) => ms =>
 	units.reduce (({remaining, timeArray}, unit) => ({
 		remaining: remaining / unit,
 		timeArray: [remaining % unit, ...timeArray]
-	}), {remaining: ms / msPerTick (units), timeArray: []})
+	}), {remaining: ms / msPerTick ({units}), timeArray: []})
 	.timeArray
 
 const weave = ([item, ...rest], ...strands) => (woven = []) =>
