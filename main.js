@@ -35,20 +35,18 @@ const clockLoop = config => ((msToday, msTick) =>
 	))
 ) (Date.now() % msPerDay, msPerTick (config))
 
-const adaptStyle = ({separators, units}) => {
-	const charsRoot = Math.sqrt (
-		separators
-		.filter (x => x != '')
-		.filter (x => !(x.startsWith('<') && x.endsWith('>')))
-		.length +
-		units.length
-	)
-
+const adaptStyle = ({separators, units}) => (charsRoot =>
 	document.body.style =
 		'font-size: calc(' +
 		60 / charsRoot + 'vh + ' +
 		30 / charsRoot + 'vw);'
-}
+) (Math.sqrt (
+	separators
+	.filter (x => x != '')
+	.filter (x => !(x.startsWith('<') && x.endsWith('>')))
+	.length +
+	units.length
+))
 
 onload = onhashchange = () => {
 	location.hash ||= '#hex'
