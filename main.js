@@ -3,7 +3,7 @@ import { presets } from './presets.js'
 let currentTimer
 
 const msPerDay = 1000 * 60 * 60 * 24
-const msPerTick = units =>
+const msPerTick = ({units}) =>
 	msPerDay / units.reduce ((val, acc) => acc * val, 1)
 
 const toTimeArray = ({units}) => ms =>
@@ -33,7 +33,7 @@ const clockLoop = config => ((msToday, msTick) =>
 		currentTimer = setTimeout (
 		clockLoop, msTick - (msToday % msTick), config
 	))
-) (Date.now() % msPerDay, msPerTick (config.units))
+) (Date.now() % msPerDay, msPerTick (config))
 
 const adaptStyle = ({separators, units}) => {
 	const charsRoot = Math.sqrt (
