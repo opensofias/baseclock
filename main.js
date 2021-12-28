@@ -3,14 +3,14 @@ import { presets } from './presets.js'
 let currentTimer
 
 const msPerDay = 1000 * 60 * 60 * 24
-const msPerShortUnit = units =>
+const msPerTick = units =>
 	msPerDay / units.reduce ((val, acc) => acc * val, 1)
 
 const toTimeArray = ({units}) => ms =>
 	units.reduce (({remaining, timeArray}, unit) => ({
 		remaining: remaining / unit,
 		timeArray: [remaining % unit, ...timeArray]
-	}), {remaining: ms / msPerShortUnit (units), timeArray: []})
+	}), {remaining: ms / msPerTick (units), timeArray: []})
 	.timeArray
 
 const weave = ([item, ...rest], ...strands) => (woven = []) =>
@@ -24,15 +24,15 @@ const clockString = ({separators}) => timeArray =>
 		timeArray.map (x => Math.floor(x).toString (36))
 	) ().join ('').toUpperCase ()
 
-const renderClock = config => {
-	const msOfToday = Date.now() % msPerDay
-	const shorts = msPerShortUnit (config.units)
+const clockLoop = config => {
+	const msToday = Date.now() % msPerDay
+	const msTick = msPerTick (config.units)
 
 	document.body.innerHTML =
-		clockString (config) (toTimeArray (config) (msOfToday))
+		clockString (config) (toTimeArray (config) (msToday))
 
 	currentTimer = setTimeout (
-		renderClock, shorts - (msOfToday % shorts), config
+		clockLoop, msTick - (msToday % msTick), config
 	)
 }
 
@@ -58,5 +58,5 @@ onload = onhashchange = () => {
 
 	adaptStyle (preset)
 	clearTimeout (currentTimer)
-	renderClock(preset)
+	clockLoop(preset)
 }
