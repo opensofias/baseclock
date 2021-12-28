@@ -24,17 +24,16 @@ const clockString = ({separators}) => timeArray =>
 		timeArray.map (x => Math.floor(x).toString (36))
 	) ().join ('').toUpperCase ()
 
-const clockLoop = config => {
-	const msToday = Date.now() % msPerDay
-	const msTick = msPerTick (config.units)
-
+const renderClock = config => msToday => 
 	document.body.innerHTML =
 		clockString (config) (toTimeArray (config) (msToday))
 
-	currentTimer = setTimeout (
+const clockLoop = config => ((msToday, msTick) =>
+	renderClock (config) (msToday) && (
+		currentTimer = setTimeout (
 		clockLoop, msTick - (msToday % msTick), config
-	)
-}
+	))
+) (Date.now() % msPerDay, msPerTick (config.units))
 
 const adaptStyle = ({separators, units}) => {
 	const charsRoot = Math.sqrt (
